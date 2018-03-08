@@ -14,6 +14,13 @@
 		0F4A664F203EA356005E247C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F4A664D203EA356005E247C /* LaunchScreen.storyboard */; };
 		0F4A665A203EA356005E247C /* test_thirTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4A6659203EA356005E247C /* test_thirTests.swift */; };
 		0F4A6665203EA356005E247C /* test_thirUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4A6664203EA356005E247C /* test_thirUITests.swift */; };
+		0F4F000920511C41002B3BDD /* P1CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4F000820511C41002B3BDD /* P1CollectionViewCell.swift */; };
+		0F4F000B20513F0F002B3BDD /* CardType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4F000A20513F0F002B3BDD /* CardType.swift */; };
+		0F4F000D20513F68002B3BDD /* Compare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4F000C20513F68002B3BDD /* Compare.swift */; };
+		0F4F000F20513FC7002B3BDD /* Sorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4F000E20513FC7002B3BDD /* Sorting.swift */; };
+		0F4F001120514021002B3BDD /* Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4F001020514021002B3BDD /* Conversion.swift */; };
+		0F4F001320514178002B3BDD /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4F001220514178002B3BDD /* Score.swift */; };
+		0F4F0015205141C5002B3BDD /* CardHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4F0014205141C5002B3BDD /* CardHandle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +54,13 @@
 		0F4A6660203EA356005E247C /* test-thirUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "test-thirUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F4A6664203EA356005E247C /* test_thirUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_thirUITests.swift; sourceTree = "<group>"; };
 		0F4A6666203EA356005E247C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0F4F000820511C41002B3BDD /* P1CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P1CollectionViewCell.swift; sourceTree = "<group>"; };
+		0F4F000A20513F0F002B3BDD /* CardType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardType.swift; sourceTree = "<group>"; };
+		0F4F000C20513F68002B3BDD /* Compare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compare.swift; sourceTree = "<group>"; };
+		0F4F000E20513FC7002B3BDD /* Sorting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sorting.swift; sourceTree = "<group>"; };
+		0F4F001020514021002B3BDD /* Conversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversion.swift; sourceTree = "<group>"; };
+		0F4F001220514178002B3BDD /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
+		0F4F0014205141C5002B3BDD /* CardHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardHandle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +112,14 @@
 			isa = PBXGroup;
 			children = (
 				0F4A6644203EA356005E247C /* AppDelegate.swift */,
+				0F4F000820511C41002B3BDD /* P1CollectionViewCell.swift */,
 				0F4A6646203EA356005E247C /* ViewController.swift */,
+				0F4F0014205141C5002B3BDD /* CardHandle.swift */,
+				0F4F000A20513F0F002B3BDD /* CardType.swift */,
+				0F4F000C20513F68002B3BDD /* Compare.swift */,
+				0F4F000E20513FC7002B3BDD /* Sorting.swift */,
+				0F4F001020514021002B3BDD /* Conversion.swift */,
+				0F4F001220514178002B3BDD /* Score.swift */,
 				0F4A6648203EA356005E247C /* Main.storyboard */,
 				0F4A664B203EA356005E247C /* Assets.xcassets */,
 				0F4A664D203EA356005E247C /* LaunchScreen.storyboard */,
@@ -259,7 +280,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F4F000F20513FC7002B3BDD /* Sorting.swift in Sources */,
+				0F4F000920511C41002B3BDD /* P1CollectionViewCell.swift in Sources */,
+				0F4F001320514178002B3BDD /* Score.swift in Sources */,
+				0F4F000D20513F68002B3BDD /* Compare.swift in Sources */,
+				0F4F000B20513F0F002B3BDD /* CardType.swift in Sources */,
+				0F4F001120514021002B3BDD /* Conversion.swift in Sources */,
 				0F4A6647203EA356005E247C /* ViewController.swift in Sources */,
+				0F4F0015205141C5002B3BDD /* CardHandle.swift in Sources */,
 				0F4A6645203EA356005E247C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,11 +454,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "test-thir/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nhr.test-thir";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -440,11 +472,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "test-thir/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nhr.test-thir";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
