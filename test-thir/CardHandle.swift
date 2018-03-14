@@ -109,3 +109,8 @@ func deal(pk:Array<Int>) -> (Array<Int>,Array<Int>,Array<Int>,Array<Int>)
 
     return (one,two,three,four)
 }
+
+func deleteArrEle(array:Array<Int>,element: Int) -> Array<Int> {
+    // 刪除指定元素
+    return array.filter() { $0 != element }
+}

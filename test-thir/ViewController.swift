@@ -28,84 +28,125 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        var bb = [0,0,0,0]
+        // 大量統計結果
+        var autoRunResult = [0,0,0,0]
 
-        for index in 0...0{
+        // auto run 統計結果
+        for _ in 0...0{
 
-        pkArray = wash(pkA: pkArray)
-        //print("pk = \(pkArray)")
+            // 打亂總陣列
+            pkArray = wash(pkA: pkArray)
 
+            // 重新分配
+            (pOne,pTwo,pThree,pFour) = deal(pk: pkArray)
+            pOne = quickSorting(oriArray: pOne)
+
+            // AI 自動排列
+            //pOneSet = autoArrangement(oriArray: pOne)
+            pTwoSet = autoArrangement(oriArray: pTwo)
+            pThreeSet = autoArrangement(oriArray: pThree)
+            pFourSet = autoArrangement(oriArray: pFour)
+
+            /*
+             print("\(numberToString(oriArray: pOneSet[0]))\(numberToString(oriArray: pOneSet[1]))\(numberToString(oriArray: pOneSet[2]))")
+             print("\(numberToString(oriArray: pTwoSet[0]))\(numberToString(oriArray: pTwoSet[1]))\(numberToString(oriArray: pTwoSet[2]))")
+             print("\(numberToString(oriArray: pThreeSet[0]))\(numberToString(oriArray: pThreeSet[1]))\(numberToString(oriArray: pThreeSet[2]))")
+             print("\(numberToString(oriArray: pFourSet[0]))\(numberToString(oriArray: pFourSet[1]))\(numberToString(oriArray: pFourSet[2]))")
+
+             allSet.append(pOneSet)
+             allSet.append(pTwoSet)
+             allSet.append(pThreeSet)
+             allSet.append(pFourSet)
+
+             print("\(calResult(oriArray: allSet))")
+             */
+
+            /*
+            let singleResult = calResult(oriArray: allSet)
+            //print(aa)
+            for x in 0...3{
+                autoRunResult[x] += singleResult[x]
+            }
+            allSet.removeAll()
+             */
+        }
+        //NSLog("\(autoRunResult)")
+    }
+
+//MARK: - Button Click
+    @IBAction func dealClick(_ sender: UIButton) {
+
+        // 重新分配
         (pOne,pTwo,pThree,pFour) = deal(pk: pkArray)
+        // 排列
         pOne = quickSorting(oriArray: pOne)
+        // 清空比較陣列
+        pOneSet.removeAll()
 
-        pOneSet = autoArrangement(oriArray: pOne)
+        // UI自動排版
         pTwoSet = autoArrangement(oriArray: pTwo)
         pThreeSet = autoArrangement(oriArray: pThree)
         pFourSet = autoArrangement(oriArray: pFour)
 
-//        print("\(numberToString(oriArray: pOneSet[0]))\(numberToString(oriArray: pOneSet[1]))\(numberToString(oriArray: pOneSet[2]))")
-//        print("\(numberToString(oriArray: pTwoSet[0]))\(numberToString(oriArray: pTwoSet[1]))\(numberToString(oriArray: pTwoSet[2]))")
-//        print("\(numberToString(oriArray: pThreeSet[0]))\(numberToString(oriArray: pThreeSet[1]))\(numberToString(oriArray: pThreeSet[2]))")
-//        print("\(numberToString(oriArray: pFourSet[0]))\(numberToString(oriArray: pFourSet[1]))\(numberToString(oriArray: pFourSet[2]))")
-
-        allSet.append(pOneSet)
-        allSet.append(pTwoSet)
-        allSet.append(pThreeSet)
-        allSet.append(pFourSet)
-
-        //print("\(calResult(oriArray: allSet))")
-
-
-        let aa = calResult(oriArray: allSet)
-            //print(aa)
-            for x in 0...3{
-                bb[x] += aa[x]
-
-            }
-            //NSLog("\(bb)")
-                    allSet.removeAll()
-
-            }
-        NSLog("\(bb)")
-
-    }
-
-
-
-//MARK: - Button Click
-    @IBAction func dealClick(_ sender: UIButton) {
-        (pOne,pTwo,pThree,pFour) = deal(pk: pkArray)
-        pOne = quickSorting(oriArray: pOne)
-        
+        // CollectionView重載
         p1CollectionView.reloadData()
     }
 
     @IBAction func washClick(_ sender: UIButton) {
         pkArray = wash(pkA: pkArray)
+
+        // 清空比較陣列
+        pOneSet.removeAll()
+        allSet.removeAll()
     }
 
     @IBAction func resultClick(_ sender: UIButton) {
         print("result = \(pOneSet)")
-        print("resut = \(numberToString(oriArray: pOneSet[0])) \(numberToString(oriArray: pOneSet[1])) \(numberToString(oriArray: pOneSet[2]))")
+
+        // 顯示字串化結果
+        print("\(numberToString(oriArray: pOneSet[0]))\(numberToString(oriArray: pOneSet[1]))\(numberToString(oriArray: pOneSet[2]))")
+        print("\(numberToString(oriArray: pTwoSet[0]))\(numberToString(oriArray: pTwoSet[1]))\(numberToString(oriArray: pTwoSet[2]))")
+        print("\(numberToString(oriArray: pThreeSet[0]))\(numberToString(oriArray: pThreeSet[1]))\(numberToString(oriArray: pThreeSet[2]))")
+        print("\(numberToString(oriArray: pFourSet[0]))\(numberToString(oriArray: pFourSet[1]))\(numberToString(oriArray: pFourSet[2]))")
+
+        // 載入比較陣列
+        allSet.append(pOneSet)
+        allSet.append(pTwoSet)
+        allSet.append(pThreeSet)
+        allSet.append(pFourSet)
+
+        // 顯示比較結果
+        print("\(calResult(oriArray: allSet))")
+
+        // 清除比較陣列
+        pOneSet.removeAll()
+        allSet.removeAll()
     }
 
     @IBAction func sendClick(_ sender: UIButton) {
+
+        // 滿足三五五順序
         if pOne.count != 5 && pOne.count != 10 && pOne.count != 13{
             print("test = \(pOne.count)")
         }else{
             var selectCount = 0
             var arr = Array<Int>()
             for x in 0...pOne.count-1{
+
+                // 從顏色判斷選擇
                 if self.p1CollectionView.cellForItem(at: IndexPath(row: x, section: 0))?.backgroundColor == UIColor.yellow{
                     selectCount += 1
                     arr.append(pOne[x])
                 }
             }
-            //print("sel count = \(selectCount)")
+
+            // 滿足選擇數量，重組陣列並載入新陣列
             if (selectCount == 3 && pOne.count == 13) || selectCount == 5{
                 for x in 0...arr.count-1{
+                    // 刪除指定元素
                     pOne = deleteArrEle(array: pOne, element: arr[x])
                 }
+                // 載入比較陣列
                 pOneSet.append(arr)
             }else{
                 print("select error")
@@ -114,11 +155,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         }
     }
 
-    func deleteArrEle(array:Array<Int>,element: Int) -> Array<Int> {
-        return array.filter() { $0 != element }
-    }
-
-    //MARK: - UICollectionViewDelegate
+//MARK: - UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 13
     }
@@ -131,11 +168,13 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 5
         cell.layer.borderColor = UIColor.black.cgColor
+        // 重載時清空選擇
         self.p1CollectionView.cellForItem(at: indexPath)?.backgroundColor = UIColor.clear
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 選擇提示
         self.p1CollectionView.cellForItem(at: indexPath)?.backgroundColor = self.p1CollectionView.cellForItem(at: indexPath)?.backgroundColor == UIColor.yellow ?
         UIColor.clear : UIColor.yellow
     }
