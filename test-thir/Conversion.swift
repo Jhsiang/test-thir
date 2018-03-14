@@ -20,7 +20,7 @@ func numberToString(oriArray:Array<Int>) -> Array<String>
         case 0:
             first = "♠"
         case 1:
-            first = "♥"
+            first = "❤"
         case 2:
             first = "♦"
         case 3:
@@ -57,7 +57,7 @@ func numberToString2(number:Int) -> String
     case 0:
         first = "♠"
     case 1:
-        first = "♥"
+        first = "❤"
     case 2:
         first = "♦"
     case 3:

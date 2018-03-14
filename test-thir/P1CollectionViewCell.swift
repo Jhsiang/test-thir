@@ -11,4 +11,5 @@ import UIKit
 class P1CollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var cardLabel: UILabel!
+    @IBOutlet var backgroundIV: UIImageView!
 }

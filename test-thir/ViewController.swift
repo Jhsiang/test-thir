@@ -24,9 +24,10 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     var allSet = Array<Any>()
 
     @IBOutlet var p1CollectionView: UICollectionView!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
         var bb = [0,0,0,0]
 
         for index in 0...0{
@@ -35,9 +36,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         //print("pk = \(pkArray)")
 
         (pOne,pTwo,pThree,pFour) = deal(pk: pkArray)
-        //pOne = quickSorting(oriArray: pOne)
-        //pOne = [4, 6, 10, 14, 15, 23, 24, 30, 35, 38, 46, 49, 51]
-        //print("pOne = \(pOne)")
+        pOne = quickSorting(oriArray: pOne)
 
         pOneSet = autoArrangement(oriArray: pOne)
         pTwoSet = autoArrangement(oriArray: pTwo)
@@ -68,13 +67,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
 
             }
         NSLog("\(bb)")
-        //if
-        //var testc = (5,30,3,4,5)
-        //var testd = [0,9,10,11,12]
 
-        //print("first = \(compare(oriArray: testA)) second = \(compare(oriArray: testB)) third = \(compare(oriArray: testC)) forth = \(compare(oriArray: testd))")
-        //print("forth = \(numberToString(oriArray: testd))")
-        //print("forth = \(compare(oriArray: testd))")
     }
 
 
@@ -82,7 +75,8 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
 //MARK: - Button Click
     @IBAction func dealClick(_ sender: UIButton) {
         (pOne,pTwo,pThree,pFour) = deal(pk: pkArray)
-
+        pOne = quickSorting(oriArray: pOne)
+        
         p1CollectionView.reloadData()
     }
 
@@ -91,7 +85,37 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     }
 
     @IBAction func resultClick(_ sender: UIButton) {
+        print("result = \(pOneSet)")
+        print("resut = \(numberToString(oriArray: pOneSet[0])) \(numberToString(oriArray: pOneSet[1])) \(numberToString(oriArray: pOneSet[2]))")
+    }
 
+    @IBAction func sendClick(_ sender: UIButton) {
+        if pOne.count != 5 && pOne.count != 10 && pOne.count != 13{
+            print("test = \(pOne.count)")
+        }else{
+            var selectCount = 0
+            var arr = Array<Int>()
+            for x in 0...pOne.count-1{
+                if self.p1CollectionView.cellForItem(at: IndexPath(row: x, section: 0))?.backgroundColor == UIColor.yellow{
+                    selectCount += 1
+                    arr.append(pOne[x])
+                }
+            }
+            //print("sel count = \(selectCount)")
+            if (selectCount == 3 && pOne.count == 13) || selectCount == 5{
+                for x in 0...arr.count-1{
+                    pOne = deleteArrEle(array: pOne, element: arr[x])
+                }
+                pOneSet.append(arr)
+            }else{
+                print("select error")
+            }
+            self.p1CollectionView.reloadData()
+        }
+    }
+
+    func deleteArrEle(array:Array<Int>,element: Int) -> Array<Int> {
+        return array.filter() { $0 != element }
     }
 
     //MARK: - UICollectionViewDelegate
@@ -102,12 +126,20 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! P1CollectionViewCell
-        cell.cardLabel.text = pOne.count != 0 ? numberToString2(number: pOne[indexPath.item]) : "??"
+        cell.cardLabel.text = pOne.count > indexPath.item ? numberToString2(number: pOne[indexPath.item]) : "None"
+        cell.cardLabel.sizeToFit()
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 5
         cell.layer.borderColor = UIColor.black.cgColor
+        self.p1CollectionView.cellForItem(at: indexPath)?.backgroundColor = UIColor.clear
         return cell
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.p1CollectionView.cellForItem(at: indexPath)?.backgroundColor = self.p1CollectionView.cellForItem(at: indexPath)?.backgroundColor == UIColor.yellow ?
+        UIColor.clear : UIColor.yellow
+    }
+
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellSize:CGSize = CGSize(width: collectionView.frame.width/13, height: collectionView.frame.height)
