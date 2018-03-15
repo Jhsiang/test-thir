@@ -149,7 +149,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
                 // 載入比較陣列
                 pOneSet.append(arr)
             }else{
-                print("select error")
+                print("select error selectCount = \(selectCount)")
             }
             self.p1CollectionView.reloadData()
         }
@@ -157,7 +157,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
 
 //MARK: - UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 13
+        return pOne.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -168,8 +168,9 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 5
         cell.layer.borderColor = UIColor.black.cgColor
+
         // 重載時清空選擇
-        self.p1CollectionView.cellForItem(at: indexPath)?.backgroundColor = UIColor.clear
+        cell.backgroundColor = UIColor.clear
         return cell
     }
 
@@ -178,7 +179,6 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         self.p1CollectionView.cellForItem(at: indexPath)?.backgroundColor = self.p1CollectionView.cellForItem(at: indexPath)?.backgroundColor == UIColor.yellow ?
         UIColor.clear : UIColor.yellow
     }
-
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellSize:CGSize = CGSize(width: collectionView.frame.width/13, height: collectionView.frame.height)
