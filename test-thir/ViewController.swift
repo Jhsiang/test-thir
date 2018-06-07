@@ -23,8 +23,21 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
 
     var allSet = Array<Any>()
 
+
+    @IBOutlet var firView: UIView!
+    @IBOutlet var secView: UIView!
+    @IBOutlet var thiView: UIView!
+    @IBOutlet var fouView: UIView!
     @IBOutlet var p1CollectionView: UICollectionView!
-    
+
+
+    @IBOutlet var pOneLabel: UILabel!
+    @IBOutlet var pTwoLabel: UILabel!
+    @IBOutlet var pThreeLabel: UILabel!
+    @IBOutlet var pFourLabel: UILabel!
+    @IBOutlet var resultLabel: UILabel!
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,6 +59,20 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
             pTwoSet = autoArrangement(oriArray: pTwo)
             pThreeSet = autoArrangement(oriArray: pThree)
             pFourSet = autoArrangement(oriArray: pFour)
+
+            // Label顯示
+            pOneLabel.adjustsFontSizeToFitWidth = true
+            pTwoLabel.adjustsFontSizeToFitWidth = true
+            pThreeLabel.adjustsFontSizeToFitWidth = true
+            pFourLabel.adjustsFontSizeToFitWidth = true
+            resultLabel.adjustsFontSizeToFitWidth = true
+
+            pOneLabel.text = ""
+            pTwoLabel.text = ""
+            pTwoLabel.text = ""
+            pThreeLabel.text = ""
+            pFourLabel.text = ""
+            resultLabel.text = ""
 
             /*
              print("\(numberToString(oriArray: pOneSet[0]))\(numberToString(oriArray: pOneSet[1]))\(numberToString(oriArray: pOneSet[2]))")
@@ -83,6 +110,14 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         // 清空比較陣列
         pOneSet.removeAll()
 
+        // 顯示清空
+        pOneLabel.text = ""
+        pTwoLabel.text = ""
+        pTwoLabel.text = ""
+        pThreeLabel.text = ""
+        pFourLabel.text = ""
+        resultLabel.text = ""
+
         // UI自動排版
         pTwoSet = autoArrangement(oriArray: pTwo)
         pThreeSet = autoArrangement(oriArray: pThree)
@@ -95,19 +130,76 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     @IBAction func washClick(_ sender: UIButton) {
         pkArray = wash(pkA: pkArray)
 
+        // 顯示清空
+        pOneLabel.text = ""
+        pTwoLabel.text = ""
+        pTwoLabel.text = ""
+        pThreeLabel.text = ""
+        pFourLabel.text = ""
+        resultLabel.text = ""
+
         // 清空比較陣列
         pOneSet.removeAll()
         allSet.removeAll()
     }
 
+    func setToLabel(arr:Array<Array<Int>>) -> String{
+
+        let first = numberToString(oriArray: arr[0])
+        let second = numberToString(oriArray: arr[1])
+        let third = numberToString(oriArray: arr[2])
+        var resultStr = ""
+        for x in 0...first.count-1{
+            resultStr += first[x]
+        }
+        resultStr += "          "
+        for x in 0...second.count-1{
+            resultStr += second[x]
+        }
+        resultStr += "          "
+        for x in 0...third.count-1{
+            resultStr += third[x]
+        }
+        return resultStr
+    }
+
+    func setToLabel2(arr:Array<Array<Int>>) -> String{
+
+        let first = numberToString(oriArray: arr[0])
+        let second = numberToString(oriArray: arr[1])
+        let third = numberToString(oriArray: arr[2])
+        var resultStr = ""
+        for x in 0...first.count-1{
+            resultStr += first[x] + "\n"
+        }
+        resultStr += "\n\n"
+        for x in 0...second.count-1{
+            resultStr += second[x] + "\n"
+        }
+        resultStr += "\n\n"
+        for x in 0...third.count-1{
+            resultStr += third[x] + "\n"
+        }
+        return resultStr
+    }
+
     @IBAction func resultClick(_ sender: UIButton) {
+
         print("result = \(pOneSet)")
+        guard pOneSet.count == 3 else { return}
 
         // 顯示字串化結果
         print("\(numberToString(oriArray: pOneSet[0]))\(numberToString(oriArray: pOneSet[1]))\(numberToString(oriArray: pOneSet[2]))")
         print("\(numberToString(oriArray: pTwoSet[0]))\(numberToString(oriArray: pTwoSet[1]))\(numberToString(oriArray: pTwoSet[2]))")
         print("\(numberToString(oriArray: pThreeSet[0]))\(numberToString(oriArray: pThreeSet[1]))\(numberToString(oriArray: pThreeSet[2]))")
         print("\(numberToString(oriArray: pFourSet[0]))\(numberToString(oriArray: pFourSet[1]))\(numberToString(oriArray: pFourSet[2]))")
+
+        pOneLabel.text = setToLabel(arr: pOneSet)
+        pTwoLabel.text = setToLabel2(arr: pTwoSet)
+        pThreeLabel.text = setToLabel(arr: pThreeSet)
+        pFourLabel.text = setToLabel2(arr: pFourSet)
+
+        //pTwoLabel += numberToString(oriArray: pOneSet[0])
 
         // 載入比較陣列
         allSet.append(pOneSet)
@@ -116,7 +208,9 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         allSet.append(pFourSet)
 
         // 顯示比較結果
-        print("\(calResult(oriArray: allSet))")
+        let resultArr = calResult(oriArray: allSet)
+        print("\(resultArr)")
+        resultLabel.text = "P1:  \(resultArr[0])注    P2:  \(resultArr[1])注\nP3:  \(resultArr[2])注    P4:  \(resultArr[3])注"
 
         // 清除比較陣列
         pOneSet.removeAll()
@@ -165,6 +259,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! P1CollectionViewCell
         cell.cardLabel.text = pOne.count > indexPath.item ? numberToString2(number: pOne[indexPath.item]) : "None"
         cell.cardLabel.sizeToFit()
+        cell.cardLabel.adjustsFontSizeToFitWidth = true
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 5
         cell.layer.borderColor = UIColor.black.cgColor

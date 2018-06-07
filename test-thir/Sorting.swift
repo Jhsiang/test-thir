@@ -115,6 +115,7 @@ func combos2<T>(elements: Array<T>, k: Int) -> [[T]] {
     return combos(elements: ArraySlice(elements), k: k)
 }
 
+// Cn取m
 func combinations<T>(source: [T], takenBy : Int) -> [[T]] {
     if(source.count == takenBy) {
         return [source]

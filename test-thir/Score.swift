@@ -21,6 +21,7 @@ func calResult(oriArray:Array<Any>) -> Array<Int>{
             if x != y{
                 for z in 0...2{
                     let addValue = (z == 0) ? isThree(oriArray: a[z]) ? 3 : 0 : isFour(oriArray: a[z]) ? 4 : (isFlower(oriArray: a[z]) && isOrder(oriArray: a[z])) ? 5 : 0
+                    // 只計算贏的部份
                     resultA[x] += compare(oriArray: a[z]) > compare(oriArray: b[z]) ? 1 + addValue : 0
                     resultA[y] -= compare(oriArray: a[z]) > compare(oriArray: b[z]) ? (1 + addValue) : 0
                 }
