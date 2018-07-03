@@ -8,6 +8,25 @@
 
 import Foundation
 
+func numToPkCardOrderStr(num:Int) -> String {
+
+    switch num{
+    case 1...9:
+        return String(num)
+    case 10:
+        return "a"
+    case 11:
+        return "b"
+    case 12:
+        return "c"
+    case 13:
+        return "d"
+    default:
+        return "0"
+    }
+
+}
+
 func numberToString(oriArray:Array<Int>) -> Array<String>
 {
     var strArray = Array<String>()

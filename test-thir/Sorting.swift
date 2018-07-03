@@ -141,3 +141,53 @@ func combinations<T>(source: [T], takenBy : Int) -> [[T]] {
     result += combinations(source: rest, takenBy: takenBy)
     return result
 }
+
+func autoArrangement2(arr:Array<PKCard>) -> Array<Array<PKCard>>{
+
+    guard arr.count == 13 else {return ([[PKCard()],[PKCard()],[PKCard()]])}
+    var calArray = arr
+
+    // Handle third set
+    var allSet = combinations(source: calArray, takenBy: 5)
+    var thirdA:Array<PKCard> = allSet[0]
+
+    // Pick largest
+    for everySet in allSet{
+        if compare2(oriArr: everySet).compare >= compare2(oriArr: thirdA).compare{
+            thirdA = everySet
+        }
+    }
+
+    // Remove picked
+    for removeCard in thirdA{
+        calArray = calArray.filter{$0.color != removeCard.color && $0.num != removeCard.num}
+    }
+
+    // Handle second set
+    allSet = combinations(source: calArray, takenBy: 5)
+    var secondA = allSet[0]
+
+    // Pick largest
+    for everySet in allSet{
+        if compare2(oriArr: everySet).compare >= compare2(oriArr: secondA).compare{
+            secondA = everySet
+        }
+    }
+
+    // Remove picked
+    for removeCard in secondA{
+        calArray = calArray.filter{$0.color != removeCard.color && $0.num != removeCard.num}
+    }
+
+    // Handle first set
+    allSet = combinations(source: calArray, takenBy: 3)
+    var firstA = allSet[0]
+    for everySet in allSet{
+        if compare2(oriArr: everySet).compare >= compare2(oriArr: firstA).compare{
+            firstA = everySet
+        }
+    }
+
+    return [firstA,secondA,thirdA]
+}
+
