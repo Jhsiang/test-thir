@@ -27,6 +27,78 @@ func numToPkCardOrderStr(num:Int) -> String {
 
 }
 
+func pkCardArrToShowStr(oriArr:Array<PKCard>) -> Array<String>
+{
+    var strArr = Array<String>()
+    for x in oriArr{
+        var first = String()
+        var second = String()
+        switch x.color{
+        case 1:
+            first = SHOW_LABEL_SPADE
+        case 2:
+            first = SHOW_LABEL_HEART
+        case 3:
+            first = SHOW_LABEL_DIAMOND
+        case 4:
+            first = SHOW_LABEL_CLUB
+        default:
+            print("fail")
+        }
+        switch x.num{
+        case 1...10:
+            second = String(x.num)
+        case 11:
+            second = "J"
+        case 12:
+            second = "Q"
+        case 13:
+            second = "K"
+        default:
+            second = "fail"
+        }
+        strArr.append(first+second)
+    }
+
+    return strArr
+}
+
+func pkCardToShowStr(card:PKCard) -> String
+{
+    var str = ""
+
+    var first = String()
+    var second = String()
+    switch card.color{
+    case 1:
+        first = SHOW_LABEL_SPADE
+    case 2:
+        first = SHOW_LABEL_HEART
+    case 3:
+        first = SHOW_LABEL_DIAMOND
+    case 4:
+        first = SHOW_LABEL_CLUB
+    default:
+        print("fail")
+    }
+    switch card.num{
+    case 1...10:
+        second = String(card.num)
+    case 11:
+        second = "J"
+    case 12:
+        second = "Q"
+    case 13:
+        second = "K"
+    default:
+        second = "fail"
+    }
+    str = first + second
+    return str
+}
+
+
+
 func numberToString(oriArray:Array<Int>) -> Array<String>
 {
     var strArray = Array<String>()

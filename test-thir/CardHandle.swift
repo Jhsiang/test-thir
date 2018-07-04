@@ -8,114 +8,21 @@
 
 import Foundation
 
-func wash(pkA:Array<Int>) -> Array<Int>
+func TXdeal(pkArr:Array<PKCard>) -> (Array<PKCard>,Array<PKCard>)
 {
-    //UserDefaults.standard.removeObject(forKey: "SaveCard")
+    var one = Array<PKCard>()
+    var two = Array<PKCard>()
+    
 
-    var washA = pkA
-    if washA.count != 52
-    {
-        if UserDefaults.standard.array(forKey: "SaveCard") != nil && UserDefaults.standard.array(forKey: "SaveCard")?.count == 52
-        {
-            washA = UserDefaults.standard.array(forKey: "SaveCard") as! [Int]
-        }
-        else
-        {
-            for x in 0...51
-            {
-                washA.append(x)
-            }
-            UserDefaults.standard.set(washA, forKey: "SaveCard")
-        }
-    }
-    for _ in 0...3
-    {
-        let rand = Int(arc4random_uniform(45) + 3) //3~47
-        let a1 = Array(washA[0...rand])
-        let a2 = Array(washA[rand+1...washA.count-1])
-        washA = a2 + a1
-    }
-
-    for _ in 0...3
-    {
-        let rand = Int(arc4random_uniform(8) + 22) // 22~29
-        var a1 = Array(washA[0...rand])
-        var a2 = Array(washA[rand+1...washA.count-1])
-        var sum = Array<Int>()
-        while sum.count < 52
-        {
-            let r1Uint32 = UInt32(a1.count)
-            let r2Uint32 = UInt32(a2.count)
-            let rand1 = Int(arc4random_uniform(r1Uint32))
-            let rand2 = Int(arc4random_uniform(r2Uint32))
-            if a1.count != 0
-            {
-                sum += Array(a1[0...rand1])
-                a1.removeFirst(rand1+1)
-            }
-            if a2.count != 0
-            {
-                sum += Array(a2[0...rand2])
-                a2.removeFirst(rand2+1)
-            }
-        }
-        //print("sum = \(sum) sum.count = \(sum.count)")
-        if sum.count > 52
-        {
-            print("fail")
-        }
-        else
-        {
-            washA = sum
-        }
-    }
-    for _ in 0...3
-    {
-        let rand = Int(arc4random_uniform(45) + 3) //3~47
-        let a1 = Array(washA[0...rand])
-        let a2 = Array(washA[rand+1...washA.count-1])
-        washA = a2 + a1
-    }
-    UserDefaults.standard.set(washA, forKey: "SaveCard")
-
-    return washA
+    return (one,two)
 }
 
-func deal(pk:Array<Int>) -> (Array<Int>,Array<Int>,Array<Int>,Array<Int>)
-{
-    var dealPK = pk
-    if dealPK.count != 52 {dealPK = wash(pkA: dealPK)}
-
-    var one = Array<Int>()
-    var two = Array<Int>()
-    var three = Array<Int>()
-    var four = Array<Int>()
-    for x in 0...pk.count-1
-    {
-        switch x % 4
-        {
-        case 0:
-            one.append(pk[x])
-        case 1:
-            two.append(pk[x])
-        case 2:
-            three.append(pk[x])
-        case 3:
-            four.append(pk[x])
-        default:
-            print("switch fail")
-        }
-    }
-
-    return (one,two,three,four)
-}
-
-func deal2(pkArr:Array<PKCard>) -> (Array<PKCard>,Array<PKCard>,Array<PKCard>,Array<PKCard>)
+func deal(pkArr:Array<PKCard>) -> (Array<PKCard>,Array<PKCard>,Array<PKCard>,Array<PKCard>)
 {
     var dealArr = pkArr
     if dealArr.count != 52{
         dealArr = pkReset()
-        dealArr = wash2(arr: dealArr)
+        dealArr = wash(arr: dealArr)
     }
     var one = Array<PKCard>()
     var two = Array<PKCard>()
@@ -153,61 +60,73 @@ func pkReset() -> Array<PKCard>
     return result
 }
 
-func wash2(arr:Array<PKCard>) -> Array<PKCard>
+func wash(arr:Array<PKCard>) -> Array<PKCard>
 {
-    guard arr.count == 52 else{return arr}
     var washArr = arr
-
-    for _ in 0...3
-    {
-        let rand = Int(arc4random_uniform(45) + 3) //3~47
-        let a1 = Array(washArr[0...rand])
-        let a2 = Array(washArr[rand+1...washArr.count-1])
-        washArr = a2 + a1
+    if washArr.count != 52{
+        washArr = pkReset()
     }
 
-    for _ in 0...2
-    {
-        let rand = Int(arc4random_uniform(5) + 24) // 24~28
-        var a1 = Array(washArr[0...rand])
-        var a2 = Array(washArr[rand+1...washArr.count-1])
-        var sum = Array<PKCard>()
-        while sum.count < 52
-        {
-            let r1Uint32 = UInt32(a1.count)
-            let r2Uint32 = UInt32(a2.count)
-            let rand1 = Int(arc4random_uniform(r1Uint32))
-            let rand2 = Int(arc4random_uniform(r2Uint32))
-            if a1.count != 0
+    for _ in 0...3{
+
+        do{
+            let a1 = Array(washArr[0...11])
+            let a2 = Array(washArr[12...40])
+            let a3 = Array(washArr[41...51])
+            washArr = a2 + a1 + a3
+        }
+
+        do{
+            let rand = Int(arc4random_uniform(45) + 3) //3~47
+            let a1 = Array(washArr[0...rand])
+            let a2 = Array(washArr[rand+1...washArr.count-1])
+            washArr = a2 + a1
+        }
+
+        do{
+            let rand = Int(arc4random_uniform(5) + 24) // 24~28
+            var a1 = Array(washArr[0...rand])
+            var a2 = Array(washArr[rand+1...washArr.count-1])
+            var sum = Array<PKCard>()
+            while sum.count < 52
             {
-                sum += Array(a1[0...rand1])
-                a1.removeFirst(rand1+1)
+                let r1Uint32 = UInt32(a1.count)
+                let r2Uint32 = UInt32(a2.count)
+                let rand1 = Int(arc4random_uniform(r1Uint32))
+                let rand2 = Int(arc4random_uniform(r2Uint32))
+                if a1.count != 0
+                {
+                    sum += Array(a1[0...rand1])
+                    a1.removeFirst(rand1+1)
+                }
+                if a2.count != 0
+                {
+                    sum += Array(a2[0...rand2])
+                    a2.removeFirst(rand2+1)
+                }
             }
-            if a2.count != 0
-            {
-                sum += Array(a2[0...rand2])
-                a2.removeFirst(rand2+1)
-            }
-        }
-        //print("sum = \(sum) sum.count = \(sum.count)")
-        if sum.count > 52
-        {
-            print("fail")
-        }
-        else
-        {
-            washArr = sum
-        }
-    }
 
-    for _ in 0...3
-    {
-        let rand = Int(arc4random_uniform(45) + 3) //3~47
-        let a1 = Array(washArr[0...rand])
-        let a2 = Array(washArr[rand+1...washArr.count-1])
-        washArr = a2 + a1
+            if sum.count > 52{
+                print("fail")
+            }else{
+                washArr = sum
+            }
+        }
+
+        do{
+            let a1 = Array(washArr[0...11])
+            let a2 = Array(washArr[12...40])
+            let a3 = Array(washArr[41...51])
+            washArr = a2 + a1 + a3
+        }
+
+        do{
+            let rand = Int(arc4random_uniform(45) + 3) //3~47
+            let a1 = Array(washArr[0...rand])
+            let a2 = Array(washArr[rand+1...washArr.count-1])
+            washArr = a2 + a1
+        }
     }
-    UserDefaults.standard.set(washArr, forKey: "SaveCard")
 
     return washArr
 }

@@ -17,3 +17,8 @@ let TYPE_THREE = "4"
 let TYPE_TP = "3"
 let TYPE_OP = "2"
 let TYPE_HC = "1"
+
+let SHOW_LABEL_SPADE = "♠"
+let SHOW_LABEL_HEART = "❤"
+let SHOW_LABEL_DIAMOND = "♦"
+let SHOW_LABEL_CLUB = "♣"

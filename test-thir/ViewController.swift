@@ -10,19 +10,18 @@ import UIKit
 
 class ViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
 
-    var pkArray = Array<Int>()
-    var pOne = Array<Int>()
-    var pTwo = Array<Int>()
-    var pThree = Array<Int>()
-    var pFour = Array<Int>()
+    var pkArray = Array<PKCard>()
+    var pOne = Array<PKCard>()
+    var pTwo = Array<PKCard>()
+    var pThree = Array<PKCard>()
+    var pFour = Array<PKCard>()
 
-    var pOneSet = Array<Array<Int>>()
-    var pTwoSet = Array<Array<Int>>()
-    var pThreeSet = Array<Array<Int>>()
-    var pFourSet = Array<Array<Int>>()
+    var pOneSet = Array<Array<PKCard>>()
+    var pTwoSet = Array<Array<PKCard>>()
+    var pThreeSet = Array<Array<PKCard>>()
+    var pFourSet = Array<Array<PKCard>>()
 
     var allSet = Array<Any>()
-
 
     @IBOutlet var firView: UIView!
     @IBOutlet var secView: UIView!
@@ -30,35 +29,33 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     @IBOutlet var fouView: UIView!
     @IBOutlet var p1CollectionView: UICollectionView!
 
-
     @IBOutlet var pOneLabel: UILabel!
     @IBOutlet var pTwoLabel: UILabel!
     @IBOutlet var pThreeLabel: UILabel!
     @IBOutlet var pFourLabel: UILabel!
     @IBOutlet var resultLabel: UILabel!
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // 大量統計結果
-        var autoRunResult = [0,0,0,0]
+        //var autoRunResult = [0,0,0,0]
 
         // auto run 統計結果
         for _ in 0...0{
 
             // 打亂總陣列
-            pkArray = wash(pkA: pkArray)
+            pkArray = wash(arr: pkArray)
 
             // 重新分配
-            (pOne,pTwo,pThree,pFour) = deal(pk: pkArray)
-            pOne = quickSorting(oriArray: pOne)
+            (pOne,pTwo,pThree,pFour) = deal(pkArr: pkArray)
+            pOne = quickSortingByColor(oriArr: pOne)
 
             // AI 自動排列
-            //pOneSet = autoArrangement(oriArray: pOne)
-            pTwoSet = autoArrangement(oriArray: pTwo)
-            pThreeSet = autoArrangement(oriArray: pThree)
-            pFourSet = autoArrangement(oriArray: pFour)
+            //pOneSet2 = autoArrangement(arr: pOne2)
+            pTwoSet = autoArrangement(arr: pTwo)
+            pThreeSet = autoArrangement(arr: pThree)
+            pFourSet = autoArrangement(arr: pFour)
 
             // Label顯示
             pOneLabel.adjustsFontSizeToFitWidth = true
@@ -68,7 +65,6 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
             resultLabel.adjustsFontSizeToFitWidth = true
 
             pOneLabel.text = ""
-            pTwoLabel.text = ""
             pTwoLabel.text = ""
             pThreeLabel.text = ""
             pFourLabel.text = ""
@@ -104,31 +100,31 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     @IBAction func dealClick(_ sender: UIButton) {
 
         // 重新分配
-        (pOne,pTwo,pThree,pFour) = deal(pk: pkArray)
+        (pOne,pTwo,pThree,pFour) = deal(pkArr: pkArray)
         // 排列
-        pOne = quickSorting(oriArray: pOne)
+        pOne = quickSortingByColor(oriArr: pOne)
+
         // 清空比較陣列
         pOneSet.removeAll()
 
         // 顯示清空
         pOneLabel.text = ""
         pTwoLabel.text = ""
-        pTwoLabel.text = ""
         pThreeLabel.text = ""
         pFourLabel.text = ""
         resultLabel.text = ""
 
         // UI自動排版
-        pTwoSet = autoArrangement(oriArray: pTwo)
-        pThreeSet = autoArrangement(oriArray: pThree)
-        pFourSet = autoArrangement(oriArray: pFour)
+        pTwoSet = autoArrangement(arr: pTwo)
+        pThreeSet = autoArrangement(arr: pThree)
+        pFourSet = autoArrangement(arr: pFour)
 
         // CollectionView重載
         p1CollectionView.reloadData()
     }
 
     @IBAction func washClick(_ sender: UIButton) {
-        pkArray = wash(pkA: pkArray)
+        pkArray = wash(arr: pkArray)
 
         // 顯示清空
         pOneLabel.text = ""
@@ -143,11 +139,11 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         allSet.removeAll()
     }
 
-    func setToLabel(arr:Array<Array<Int>>) -> String{
+    func setToRowLabel(arr:Array<Array<PKCard>>) -> String{
 
-        let first = numberToString(oriArray: arr[0])
-        let second = numberToString(oriArray: arr[1])
-        let third = numberToString(oriArray: arr[2])
+        let first = pkCardArrToShowStr(oriArr: arr[0])
+        let second = pkCardArrToShowStr(oriArr: arr[1])
+        let third = pkCardArrToShowStr(oriArr: arr[2])
         var resultStr = ""
         for x in 0...first.count-1{
             resultStr += first[x]
@@ -163,11 +159,11 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         return resultStr
     }
 
-    func setToLabel2(arr:Array<Array<Int>>) -> String{
+    func setToColumnLabel(arr:Array<Array<PKCard>>) -> String{
 
-        let first = numberToString(oriArray: arr[0])
-        let second = numberToString(oriArray: arr[1])
-        let third = numberToString(oriArray: arr[2])
+        let first = pkCardArrToShowStr(oriArr: arr[0])
+        let second = pkCardArrToShowStr(oriArr: arr[1])
+        let third = pkCardArrToShowStr(oriArr: arr[2])
         var resultStr = ""
         for x in 0...first.count-1{
             resultStr += first[x] + "\n"
@@ -189,15 +185,15 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         guard pOneSet.count == 3 else { return}
 
         // 顯示字串化結果
-        print("\(numberToString(oriArray: pOneSet[0]))\(numberToString(oriArray: pOneSet[1]))\(numberToString(oriArray: pOneSet[2]))")
-        print("\(numberToString(oriArray: pTwoSet[0]))\(numberToString(oriArray: pTwoSet[1]))\(numberToString(oriArray: pTwoSet[2]))")
-        print("\(numberToString(oriArray: pThreeSet[0]))\(numberToString(oriArray: pThreeSet[1]))\(numberToString(oriArray: pThreeSet[2]))")
-        print("\(numberToString(oriArray: pFourSet[0]))\(numberToString(oriArray: pFourSet[1]))\(numberToString(oriArray: pFourSet[2]))")
+        print("\(pkCardArrToShowStr(oriArr: pOneSet[0]))\(pkCardArrToShowStr(oriArr: pOneSet[1]))\(pkCardArrToShowStr(oriArr: pOneSet[2]))")
+        print("\(pkCardArrToShowStr(oriArr: pTwoSet[0]))\(pkCardArrToShowStr(oriArr: pTwoSet[1]))\(pkCardArrToShowStr(oriArr: pTwoSet[2]))")
+        print("\(pkCardArrToShowStr(oriArr: pThreeSet[0]))\(pkCardArrToShowStr(oriArr: pThreeSet[1]))\(pkCardArrToShowStr(oriArr: pThreeSet[2]))")
+        print("\(pkCardArrToShowStr(oriArr: pFourSet[0]))\(pkCardArrToShowStr(oriArr: pFourSet[1]))\(pkCardArrToShowStr(oriArr: pFourSet[2]))")
 
-        pOneLabel.text = setToLabel(arr: pOneSet)
-        pTwoLabel.text = setToLabel2(arr: pTwoSet)
-        pThreeLabel.text = setToLabel(arr: pThreeSet)
-        pFourLabel.text = setToLabel2(arr: pFourSet)
+        pOneLabel.text = setToRowLabel(arr: pOneSet)
+        pTwoLabel.text = setToColumnLabel(arr: pTwoSet)
+        pThreeLabel.text = setToRowLabel(arr: pThreeSet)
+        pFourLabel.text = setToColumnLabel(arr: pFourSet)
 
         //pTwoLabel += numberToString(oriArray: pOneSet[0])
 
@@ -224,9 +220,8 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
             print("test = \(pOne.count)")
         }else{
             var selectCount = 0
-            var arr = Array<Int>()
+            var arr = Array<PKCard>()
             for x in 0...pOne.count-1{
-
                 // 從顏色判斷選擇
                 if self.p1CollectionView.cellForItem(at: IndexPath(row: x, section: 0))?.backgroundColor == UIColor.yellow{
                     selectCount += 1
@@ -236,14 +231,15 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
 
             // 滿足選擇數量，重組陣列並載入新陣列
             if (selectCount == 3 && pOne.count == 13) || selectCount == 5{
-                for x in 0...arr.count-1{
-                    // 刪除指定元素
-                    pOne = deleteArrEle(array: pOne, element: arr[x])
+                for x in arr{
+                    // Remove picked
+                    pOne = pOne.filter{$0.color != x.color || $0.num != x.num}
                 }
                 // 載入比較陣列
                 pOneSet.append(arr)
             }else{
                 print("select error selectCount = \(selectCount)")
+                return
             }
             self.p1CollectionView.reloadData()
         }
@@ -257,7 +253,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! P1CollectionViewCell
-        cell.cardLabel.text = pOne.count > indexPath.item ? numberToString2(number: pOne[indexPath.item]) : "None"
+        cell.cardLabel.text = indexPath.item >= pOne.count ? "None" : pkCardToShowStr(card: pOne[indexPath.item])
         cell.cardLabel.sizeToFit()
         cell.cardLabel.adjustsFontSizeToFitWidth = true
         cell.layer.borderWidth = 1
