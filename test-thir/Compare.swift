@@ -94,3 +94,159 @@ func compare(oriArr:Array<PKCard>) -> PKPower
 
     return result
 }
+
+func compare2PkArr(a:Array<PKCard>,b:Array<PKCard>) -> Int {
+//0.22
+    var aPower = ""
+    var bPower = ""
+    var aNumArr = Array<Int>()
+    var bNumArr = Array<Int>()
+    var aCountArr = Array<Int>()
+    var bCountArr = Array<Int>()
+
+    (aPower,aNumArr,aCountArr) = txCardTypeAndOrder(arr: a)
+    (bPower,bNumArr,bCountArr) = txCardTypeAndOrder(arr: b)
+
+//2.5s
+    if aPower != bPower{
+        return aPower > bPower ? 0 : 1
+    }
+
+//end 3.0s
+    if aNumArr == bNumArr{
+        return 2
+    }
+
+    if aPower == TYPE_ORDER || aPower == TYPE_FLOWER || aPower == TYPE_HC || aPower == TYPE_ORDER_FLOWER{
+        for i in 0...aNumArr.count - 1{
+            if aNumArr[i] != bNumArr[i]{
+                return aNumArr[i] > bNumArr[i] ? 0 : 1
+            }
+        }
+        return 2
+    }
+
+    if aPower == TYPE_FOUR
+    {
+        let aFthNum = aCountArr.index(of: 4)!
+        let bFthNum = bCountArr.index(of: 4)!
+
+        if aFthNum != bFthNum{
+            return aFthNum > bFthNum ? 0 : 1
+        }else{
+            let aSingleNum = aCountArr.index(of: 1)!
+            let bSingleNum = bCountArr.index(of: 1)!
+            if aSingleNum != bSingleNum{
+                return aSingleNum > bSingleNum ? 0 : 1
+            }else{
+                return 2
+            }
+        }
+    }
+    else if aPower == TYPE_FH
+    {
+        let aThrNum = aCountArr.index(of: 3)!
+        let bThrNum = bCountArr.index(of: 3)!
+        if aThrNum != bThrNum{
+            return aThrNum > bThrNum ? 0 : 1
+        }else{
+            let aPairNum = aCountArr.index(of: 2)!
+            let bPairNum = bCountArr.index(of: 2)!
+            if aPairNum != bPairNum{
+                return aPairNum > bPairNum ? 0 : 1
+            }else{
+                return 2
+            }
+        }
+    }
+    else if aPower == TYPE_THREE
+    {
+        let aThrNum = aCountArr.index(of: 3)!
+        let bThrNum = bCountArr.index(of: 3)!
+
+        if aThrNum != bThrNum{
+            return aThrNum > bThrNum ? 0 : 1
+        }else{
+            var aSingleArr = Array<Int>()
+            var bSingleArr = Array<Int>()
+            for i in aCountArr{
+                if i == 1{
+                    aSingleArr.append(i)
+                }
+            }
+            for i in bCountArr{
+                if i == 1{
+                    bSingleArr.append(i)
+                }
+            }
+            aSingleArr.sort()
+            bSingleArr.sort()
+            let aSingleBigNum = aSingleArr[1]
+            let bSingleBigNum = bSingleArr[1]
+            if aSingleBigNum != bSingleBigNum{
+                return aSingleBigNum > bSingleBigNum ? 0 : 1
+            }else{
+                let aSingleSmallNum = aSingleArr[0]
+                let bSingleSmallNum = bSingleArr[0]
+                if aSingleSmallNum != bSingleSmallNum{
+                    return aSingleSmallNum > bSingleSmallNum ? 0 : 1
+                }else{
+                    return 2
+                }
+            }
+        }
+    }
+    else if aPower == TYPE_TP
+    {
+        let aBigPairNum = aCountArr.lastIndex(of: 2)!
+        let bBigPairNum = bCountArr.lastIndex(of: 2)!
+        if aBigPairNum != bBigPairNum{
+            return aBigPairNum > bBigPairNum ? 0 : 1
+        }else {
+            let aSmallPairNum = aCountArr.index(of: 2)!
+            let bSmallPairNum = bCountArr.index(of: 2)!
+            if aSmallPairNum != bSmallPairNum{
+                return aSmallPairNum > bSmallPairNum ? 0 : 1
+            }else {
+                let aSingleNum = aCountArr.index(of: 1)!
+                let bSingleNum = bCountArr.index(of: 1)!
+                if aSingleNum != bSingleNum{
+                    return aSingleNum > bSingleNum ? 0 : 1
+                }else {
+                    return 2
+                }
+            }
+        }
+    }
+    else if aPower == TYPE_OP
+    {
+        let aPairNum = aCountArr.firstIndex(of: 2)!
+        let bPairNum = bCountArr.firstIndex(of: 2)!
+        if aPairNum != bPairNum{
+            return aPairNum > bPairNum ? 0 : 1
+        }else{
+            let aBigSinagleNum = aCountArr.lastIndex(of: 1)!
+            let bBigSinagleNum = bCountArr.lastIndex(of: 1)!
+            if aBigSinagleNum != bBigSinagleNum{
+                return aBigSinagleNum > bBigSinagleNum ? 0 : 1
+            }else{
+                aCountArr[aBigSinagleNum] = 0
+                bCountArr[bBigSinagleNum] = 0
+                let aMidSinagleNum = aCountArr.lastIndex(of: 1)!
+                let bMidSinagleNum = bCountArr.lastIndex(of: 1)!
+                if aMidSinagleNum != bMidSinagleNum{
+                    return aMidSinagleNum > bMidSinagleNum ? 0 : 1
+                }else{
+                    let aSmallSinagleNum = aCountArr.firstIndex(of: 1)!
+                    let bSmallSinagleNum = bCountArr.firstIndex(of: 1)!
+                    if aSmallSinagleNum != bSmallSinagleNum{
+                        return aSmallSinagleNum > bSmallSinagleNum ? 0 : 1
+                    }else{
+                        return 2
+                    }
+                }
+            }
+        }
+    }
+    return 2
+}

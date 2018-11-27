@@ -60,6 +60,24 @@ func pkReset() -> Array<PKCard>
     return result
 }
 
+func washAnyNum(arr:Array<PKCard>) -> Array<PKCard>{
+    var washArr = arr
+    guard washArr.count > 1 else{
+        return washArr
+    }
+
+    do{
+        var newCard = Array<PKCard>()
+        for i in stride(from: washArr.count - 1, through: 0, by: -1){
+            let myRand = Int(arc4random_uniform(UInt32(i)))
+            newCard.append(washArr[myRand])
+            washArr.remove(at: myRand)
+        }
+        washArr = newCard
+    }
+    return washArr
+}
+
 func wash(arr:Array<PKCard>) -> Array<PKCard>
 {
     var washArr = arr
@@ -84,32 +102,15 @@ func wash(arr:Array<PKCard>) -> Array<PKCard>
         }
 
         do{
-            let rand = Int(arc4random_uniform(5) + 24) // 24~28
-            var a1 = Array(washArr[0...rand])
-            var a2 = Array(washArr[rand+1...washArr.count-1])
-            var sum = Array<PKCard>()
-            while sum.count < 52
-            {
-                let r1Uint32 = UInt32(a1.count)
-                let r2Uint32 = UInt32(a2.count)
-                let rand1 = Int(arc4random_uniform(r1Uint32))
-                let rand2 = Int(arc4random_uniform(r2Uint32))
-                if a1.count != 0
-                {
-                    sum += Array(a1[0...rand1])
-                    a1.removeFirst(rand1+1)
-                }
-                if a2.count != 0
-                {
-                    sum += Array(a2[0...rand2])
-                    a2.removeFirst(rand2+1)
-                }
+            var newCard = Array<PKCard>()
+            let a1 = Array(washArr[0...25])
+            let a2 = Array(washArr[26...51])
+            for i in 0...25{
+                newCard.append(a1[i])
+                newCard.append(a2[i])
             }
-
-            if sum.count > 52{
-                print("fail")
-            }else{
-                washArr = sum
+            if newCard.count == 52{
+                washArr = newCard
             }
         }
 
