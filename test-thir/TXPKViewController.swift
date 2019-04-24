@@ -19,29 +19,48 @@ class TXPKViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //[227294, 1465059, 19951]
-        var winResult = [0,0,0]
-        do {
-            pkArr = pkReset()
-            pOneGet2Q()
-            pTwoGet2K()
+        let getMax = {
+            self.pkArr = pkReset()
+            NSLog("111")
+            let totalCar = combinations(source: self.pkArr, takenBy: 5)
+            print(totalCar.count)
+            NSLog("222")
+            var winCar = totalCar[0]
+            for everyCar in totalCar{
+                if compare2PkArr(a: everyCar, b: winCar) == 0{
+                    winCar = everyCar
+                }
+            }
+            NSLog("333")
+            print(pkCardArrToShowStr(oriArr: winCar))
+        }
+        //getMax()
+
+
+         //[227294, 1465059, 19951]
+
+        let txCard = {
+            var winResult = [0,0,0]
+            self.pkArr = pkReset()
+            self.pOneGet2Q()
+            self.pTwoGet2K()
             NSLog("time 1")
-            let totalPubCarArr = combinations(source: pkArr, takenBy: 5)
+            let totalPubCarArr = combinations(source: self.pkArr, takenBy: 5)
             print("total = ",totalPubCarArr.count)
             NSLog("time 2")
 
             for publicCard in totalPubCarArr{
                 //let aCouple = pOne + publicCard
                 //let bCouple = pTwo + publicCard
-                let a0 = pOne[0]        //aCouple[0]
-                let a1 = pOne[1]        //aCouple[1]
+                let a0 = self.pOne[0]        //aCouple[0]
+                let a1 = self.pOne[1]        //aCouple[1]
                 let a2 = publicCard[0]   //aCouple[2]
                 let a3 = publicCard[1]   //aCouple[3]
                 let a4 = publicCard[2]   //aCouple[4]
                 let a5 = publicCard[3]   //aCouple[5]
                 let a6 = publicCard[4]   //aCouple[6]
-                let b0 = pTwo[0]         //bCouple[0]
-                let b1 = pTwo[1]         //bCouple[1]
+                let b0 = self.pTwo[0]         //bCouple[0]
+                let b1 = self.pTwo[1]         //bCouple[1]
                 let b2 = publicCard[0]   //bCouple[2]
                 let b3 = publicCard[1]   //bCouple[3]
                 let b4 = publicCard[2]   //bCouple[4]
@@ -52,7 +71,7 @@ class TXPKViewController: UIViewController {
                 //let totalA = combinations(source: aCouple, takenBy: 5)
                 //let totalB = combinations(source: bCouple, takenBy: 5)
 
-                if let x = whoWin(totalA: totalA, totalB: totalB){
+                if let x = self.whoWin(totalA: totalA, totalB: totalB){
                     winResult[x] += 1
                     if (winResult[0] + winResult[1] + winResult[2]) % 10000 == 0{
                         NSLog("time 3")//285~300 //500 // 769-833 //1000-1111 //1600-1700 /per second
@@ -60,9 +79,10 @@ class TXPKViewController: UIViewController {
                 }
             }
             NSLog("time 4")
+            print("result = ",winResult)
         }
+        txCard()
 
-        print("result = ",winResult)
     }
 
     func whoWin(totalA:[Array<PKCard>],totalB:[Array<PKCard>]) -> Int?{
